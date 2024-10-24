@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Main Content -->
+    <div class="col-md-9 content">
+      <div class="manage-questions">
+        <h2>Manage Questions</h2>
+      
+        <!-- Error Message -->
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+        </div>
+      
+        <!-- Question Form -->
+        <form [formGroup]="questionForm" (ngSubmit)="editingQuestion ? updateQuestion() : addQuestion()">
+          <div class="form-group">
+            <label for="text">Question Text</label>
+            <input type="text" id="text" class="form-control" formControlName="text" />
+          </div>
+          <button type="submit" class="btn btn-primary">{{ editingQuestion ? 'Update Question' : 'Add Question' }}</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()" *ngIf="editingQuestion">Cancel</button>
+        </form>
+      
+        <!-- Questions List -->
+        <h3 class="mt-4">Existing Questions</h3>
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let question of questions">
+            <div>
+              <strong>{{ question.text }}</strong> <br />
+            </div>
+            <div class="float-right">
+              <button class="btn btn-warning btn-sm" (click)="editQuestion(question)">Edit</button>
+              <button class="btn btn-danger btn-sm" (click)="deleteQuestion(question.id)">Delete</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+</div>

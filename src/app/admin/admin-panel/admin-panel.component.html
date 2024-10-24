@@ -1,0 +1,27 @@
+<div class="admin-layout">
+  <!-- Mobile Menu Button -->
+  <button class="mobile-menu-toggle" (click)="toggleRightPanel()">
+    <i class="fas fa-bars"></i> <!-- You can use any icon here -->
+  </button>
+
+  <!-- Main Content -->
+  <div class="main-content" [class.with-panel]="showRightPanel">
+    <!-- Welcome message for admin home route only -->
+    <div *ngIf="isAdminHome" class="welcome-section">
+      <h1>Welcome to City Samosa Aggrement</h1>
+      <p>Select an option from the right panel to get started.</p>
+    </div>
+    
+    <router-outlet></router-outlet>
+  </div>
+  <!-- Right Panel -->
+  <div class="right-panel" [class.show]="showRightPanel">
+    <app-right-panel [isVisible]="true"></app-right-panel>
+  </div>
+
+  <!-- Overlay for mobile -->
+  <div class="panel-overlay" 
+       [class.show]="showRightPanel" 
+       (click)="toggleRightPanel()">
+  </div>
+</div>

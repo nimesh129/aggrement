@@ -1,0 +1,114 @@
+<!-- src/app/admin/survey-management/survey-management.component.html -->
+<div class="container-fluid">
+    <div class="row">
+      <!-- Main Content -->
+      <div class="col-md-9 content">
+        <div class="survey-management">
+          <h2>Survey Management</h2>
+  
+          <!-- Error Message -->
+          <!-- <div *ngIf="error" class="alert alert-danger">
+            {{ error }}
+          </div> -->
+  
+          <!-- Loading Spinner -->
+          <div *ngIf="loading" class="loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+  
+          <!-- Survey Table -->
+          <div class="table-responsive">
+            <table class="table table-hover survey-table">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Client Name</th>
+                  <th>Client Email</th>
+                  <th>Submission Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let response of responses">
+                  <td>{{ response.clientName }}</td>
+                  <td>{{ response.clientEmail }}</td>
+                  <td>{{ response.submissionDate | date:'medium' }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="{
+                      'badge-warning': response.status === 'pending',
+                      'badge-success': response.status === 'approved',
+                      'badge-danger': response.status === 'rejected'
+                    }">
+                      {{ response.status }}
+                    </span>
+                  </td>
+                  <td class="actions">
+                    <div class="btn-group" role="group">
+                      <button class="btn btn-info btn-sm" (click)="viewResponse(response)">
+                        <i class="fas fa-eye"></i> View
+                      </button>
+                      <button class="btn btn-success btn-sm" 
+                              (click)="updateStatus(response, 'approved')"
+                              [disabled]="response.status === 'approved'">
+                        <i class="fas fa-check"></i> Approve
+                      </button>
+                      <button class="btn btn-warning btn-sm" 
+                              (click)="updateStatus(response, 'rejected')"
+                              [disabled]="response.status === 'rejected'">
+                        <i class="fas fa-times"></i> Reject
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="deleteResponse(response.id)">
+                        <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+  
+          <!-- No Data Message -->
+          <div *ngIf="!loading && responses.length === 0" class="alert alert-info">
+            No survey responses found.
+          </div>
+  
+          <!-- Response Details Modal -->
+          <div class="modal fade show" *ngIf="selectedResponse" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Response Details</h5>
+                  <button type="button" class="close" (click)="closeModal()">
+                    <span>&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="client-info mb-4">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>Client Name:</strong> {{ selectedResponse.clientName }}</p>
+                        <p><strong>Email:</strong> {{ selectedResponse.clientEmail }}</p>
+                      </div>
+                      <div class="col-md- 6">
+                        <p><strong>Submission Date:</strong> {{ selectedResponse.submissionDate | date:'medium' }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="response-videos">
+                    <!-- <div *ngFor="let response of selectedResponse.responses; let i = index" class="video-container mb-4">
+                      <video controls>
+                        <source [src]="response.videoUrl" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

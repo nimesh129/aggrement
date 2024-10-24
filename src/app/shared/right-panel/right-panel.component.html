@@ -1,0 +1,20 @@
+<div *ngIf="isVisible" class="right-panel-content">
+  <div class="panel-header">
+    <h4>Admin Panel</h4>
+  </div>
+  
+  <nav class="panel-navigation">
+    <ul class="nav-list">
+      <li><a routerLink="/admin/manage-questions" routerLinkActive="active">Manage Questions</a></li>
+      <li><a routerLink="/admin/survey-management" routerLinkActive="active">Survey Management</a></li>
+    </ul>
+    <div class="logout-section">
+      <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </nav>
+
+  <!-- Logout Section -->
+  
+</div>

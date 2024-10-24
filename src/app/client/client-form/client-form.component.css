@@ -1,0 +1,73 @@
+.voice-controls {
+    margin-bottom: 20px;
+}
+
+.voice-status {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.listening-indicator {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.pulse-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #007bff;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.voice-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.voice-button:hover {
+    background-color: #0056b3;
+}
+
+.voice-commands-help {
+    margin-top: 20px;
+}
+
+.voice-commands-help ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.voice-commands-help li {
+    margin-bottom: 10px;
+}
+
+.voice-commands-help li:before {
+    content: "\2022";
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}

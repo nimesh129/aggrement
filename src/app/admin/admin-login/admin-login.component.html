@@ -1,0 +1,5 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    <input formControlName="username" placeholder="Username" class="form-input">
+    <input formControlName="password" type="password" placeholder="Password" class="form-input">
+    <button type="submit" [disabled]="!loginForm.valid" class="login-button">Login</button>
+  </form>

@@ -1,0 +1,140 @@
+<div class="client-form">
+  <h2>Client Agreement Form</h2>
+
+  <!-- Personal Information Section -->
+  <div class="form-section" *ngIf="currentStep === 'info'">
+    <form #clientForm="ngForm">
+      <div class="form-group">
+        <label for="name">Full Name:</label>
+        <input 
+          type="text" 
+          id="name" 
+          name="name" 
+          [(ngModel)]="clientInfo.name" 
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address:</label>
+        <input 
+          type="text" 
+          id="address" 
+          name="address" 
+          [(ngModel)]="clientInfo.address" 
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          [(ngModel)]="clientInfo.email" 
+          required 
+          email>
+      </div>
+
+      <button 
+        class="button" 
+        (click)="startQuestions()" 
+        [disabled]="!clientForm.valid">
+        Start Questions
+      </button>
+    </form>
+  </div>
+
+  <!-- Questions Section - Only show if there are questions -->
+  <div class="form-section" *ngIf="currentStep === 'questions' && questions.length > 0">
+    <div class="question-container">
+      <div class="question-header">
+        <h3>Question {{ currentQuestionIndex + 1 }} of {{ questions.length }}</h3>
+        <div class="progress-bar">
+          <div [style.width.%]="(currentQuestionIndex + 1) / questions.length * 100"></div>
+        </div>
+      </div>
+
+      <div class="question-content">
+        <!-- Voice Control Status -->
+        <div class="voice-controls">
+          <div class="voice-status">
+            <span *ngIf="isListening" class="listening-indicator">
+              <span class="pulse-dot"></span>
+              Voice Commands Active
+            </span>
+            <button class="button voice-button" (click)="speakCurrentQuestion()">
+              <i class="fas fa-volume-up"></i> Hear Question
+            </button>
+          </div>
+          <div class="voice-commands-help">
+            <p>Voice Commands:</p>
+            <ul>
+              <li>"Start Recording" - Begin video recording</li>
+              <li>"Stop Recording" - End video recording</li>
+              <li>"Next Question" - Move to next question</li>
+              <li>"Repeat Question" - Hear the question again</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="question-text">{{ currentQuestion?.text }}</p>
+
+        <!-- Video Recording Section -->
+        <div class="video-section">
+          <!-- Live Preview Video -->
+          <video #videoPreview 
+                 [class.hidden]="!isRecording && videoRecorded" 
+                 autoplay 
+                 muted 
+                 playsinline>
+          </video>
+
+          <!-- Recorded Video -->
+          <video *ngIf="videoRecorded && !isRecording" 
+                 controls>
+            <source [src]="videoUrl" type="video/webm">
+          </video>
+
+          <!-- Recording Controls -->
+          <div class="recording-controls">
+            <div *ngIf="!isRecording && !videoRecorded" class="video-controls">
+              <button class="button" (click)="startRecording()">
+                <i class="fas fa-video"></i> Start Recording
+              </button>
+            </div>
+
+            <div *ngIf="isRecording" class="recording-indicator">
+              <div class="record-dot"></div>
+              Recording... {{recordingTime}}s
+              <button class="button stop-button" (click)="stopRecording()"> Stop Recording</button>
+            </div>
+
+            <div *ngIf="videoRecorded" class="video-actions">
+              <button class="button" (click)="retakeVideo()">Retake</button>
+              <button class="button" (click)="proceedToNext()">
+                {{ isLastQuestion ? 'Submit' : 'Next Question' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Questions Message -->
+  <div class="form-section" *ngIf="currentStep === 'questions' && questions.length === 0">
+    <div class="no-questions-message">
+      <h3>No Questions Available</h3>
+      <p>There are currently no questions to answer.</p>
+      <button class="button" (click)="currentStep = 'complete'">Continue</button>
+     </div>
+  </div>
+
+  <!-- Completion Message -->
+  <div class="form-section" *ngIf="currentStep === 'complete'">
+    <div class="completion-message">
+      <h3>Thank you for completing the form!</h3>
+      <p>Your responses have been recorded.</p>
+    </div>
+  </div>
+</div>
